@@ -8,7 +8,7 @@ But why? It is important to understand how we’ve used JavaScript on the web. T
 
 **But what are the problems with these things?**
 
-Max Number of default simultaneous persistent connections per server/proxy
+Max Number of default simultaneous persistent connections per server/proxy:
 
 ```txt
 Firefox 2:  2
@@ -49,3 +49,69 @@ console.log(outerScope)
 Immediately Invoked Function Expressions! Treat each file as an IIFE (Revealing Module Pattern). Using this pattern, you can now concatenate files without any concern of scope collision! This idea lead to the explosion of tools such as; **Make**, **Grunt**, **Gulp**, **Broccoli**, **Brunch**, **StealJS**. All of which are used to concatenate JS files.
 
 But there are still problems… Full rebuilds every time. Dead code (code you are not using). Lots of IIFEs are slow. No way to lazy load.
+
+## History of Modules
+
+How do you load JavaScript if there is no DOM?
+
+```js
+// index.js
+const path = require("path"); // used for builtin Node.js modules
+const {add, subtract} = require("./math"); // or also used modules from another file
+
+const sum = add(5, 5);
+const difference = subtract(10, 4);
+
+console.log(sum, difference);
+
+/**
+ * 
+ * math.js (has two named exports {add, subtract})
+ * 
+ */
+const divideFn = require("./division");
+
+exports.add = (first, second) => first + second;
+exports.subtract = (first, second) => first - second;
+exports.divide = divideFn;
+
+/**
+ * 
+ * division.js
+ * 
+ * has a default exports "divide"
+ */
+module.exports = (first, second) => first/second;
+```
+
+NPM + Node + Modules
+
+NPM was created as a package registry to share JS modules across the registry.
+
+There is no browser support for CommonJS, there are no live-bindings which causes problems with circular references, it’s slow…
+
+The solution to this is to use bundlers / linkers. **Browserify**, **RequireJS**, **SystemJS**. The bundlers are used to write CommonJS modules and use them in your code.
+
+But there are still problems. There is no static async or lazy loading.
+
+- CommonJS bloat too dynamic
+- Not everyone shipping commonjs
+
+### AMD
+
+```js
+define('myAwesomeLib', ['lodash', 'someDep'], function(_, someDep){
+  return { ... }
+})
+```
+
+### AMD + CommonJS
+
+```js
+define(function(require, exports, module){
+  var _ = require('lodash');
+
+  // ..do things
+  module.exports = someLib
+})
+```
