@@ -132,3 +132,7 @@ ES Modules is completely separate from ES 2015. ESM has named and default export
 ESM brought reusable, encapsulated, organized, and convenient modules. The issues… ESM for Node.js? Incredibly slow in the browser.
 
 ESM for browser is not an option ever recommended to anyone under any scenario.
+
+## Introducing Webpack
+
+Every [JavaScript] library is different; i.e. may use different module formats. Enter Webpack. Webpack is a module bundler which lets you write in any module format (including mixed formats) and compiles them for the browser. Webpack supports static async bundling which allows you to create separate lazy load bundles at build time. Webpack is the most performant way to ship JavaScript.
