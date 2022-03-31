@@ -1,4 +1,4 @@
-# Webpack 4 fundementals
+# Webpack 4 fundamentals
 
 ## Expectations
 
