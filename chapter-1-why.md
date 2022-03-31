@@ -8,13 +8,43 @@ But why? It is important to understand how we’ve used JavaScript on the web. T
 
 **But what are the problems with these things?**
 
-![max connections](images/max-connections.png)
+Max Number of default simultaneous persistent connections per server/proxy
+
+```txt
+Firefox 2:  2
+Firefox 3+: 6
+Opera 9.26: 4
+Opera 12:   6
+Safari 3:   4
+Safari 5:   6
+IE 7:       2
+IE 8:       6
+IE 10:      8
+Edge:       6
+Chrome:     6
+```
 
 They don’t scale, you might have too many scripts, and each browser has bottlenecks. You could end up with unmaintainable scripts; scope, size, readability, fragility, monolithic files.
 
 **Potential solutions?**
 
-![max connections](images/iife.png)
+```js
+var outerScope = 1;
+/**
+ * Immediately Invoked Function Expression
+ */
+const whatever = (function(dataNowUsedInside){
+  var outerScope = 4;
+  return {
+    someAttribute: 'youwant'
+  }
+})(1)
+
+console.log(outerScope)
+/**
+ * console log returns 1! No inner scope leak!
+ */
+```
 
 Immediately Invoked Function Expressions! Treat each file as an IIFE (Revealing Module Pattern). Using this pattern, you can now concatenate files without any concern of scope collision! This idea lead to the explosion of tools such as; **Make**, **Grunt**, **Gulp**, **Broccoli**, **Brunch**, **StealJS**. All of which are used to concatenate JS files.
 
