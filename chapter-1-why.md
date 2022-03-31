@@ -115,3 +115,20 @@ define(function(require, exports, module){
   module.exports = someLib
 })
 ```
+
+## EcmaScript Modules (ESM)
+
+Originally called the harmony module specification
+
+```js
+import {uniq, forOf, bar} from 'lodash-es'
+import * as utils from 'utils';
+
+export const uniqConst = uniq([1,2,2,4]);
+```
+
+ES Modules is completely separate from ES 2015. ESM has named and default exports.
+
+ESM brought reusable, encapsulated, organized, and convenient modules. The issues… ESM for Node.js? Incredibly slow in the browser.
+
+ESM for browser is not an option ever recommended to anyone under any scenario.
