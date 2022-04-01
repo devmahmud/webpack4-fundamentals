@@ -1,0 +1,11 @@
+{
+  "name": "first-script",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/devmahmud/webpack4-fundementals.git",
+  "author": "Mahmudul Alam <expelmahmud@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "webpack": "^5.70.0"
+  }
+}
