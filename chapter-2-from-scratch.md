@@ -205,3 +205,76 @@ module.exports = {
 There are a couple of different data types that you can enter into the entry point of your config file, but the simplest of them is just a string which is just a relative path. Webpack will trace through each of your imports and then recurisively look for other dependencies in those files until it creates a graph.
 
 The entry point tells Webpack **what** (files) to load for the browser; it compliments the output property.
+
+## Output & Loaders
+
+The next concept important to understanding Webpack is the output property.
+
+```js
+// webpack.config.js
+
+module.exports = {
+  //...
+  output: {
+    path: './my-output-path',
+    filename: './my-output-filename.js',
+  },
+  //...
+};
+```
+
+The above talks about where and how we are going to name the file. We’ve previously explored what the output looks like.
+
+Fromo a high level: The output property tells Webpack **where** and **how** to distribute bundles (compilations). It works with entry.
+
+The next concept is Loaders and Rules. Loaders and Rules go ‘hand in hand’, they tell Webpack how to modify files before they are added to the dependency graph. Loadrs are also JavaScript modules (functions) that take source files, and return them in their modified state. A Loader / Module set up could look like the following:
+
+```js
+module: {
+  rules: [
+      {
+          test: /\.ts$/,
+          use: 'ts-loader'
+      },
+      {
+          test: /\.js$/,
+          use: 'babel-loader'
+      },
+      {
+          test: /\.css$/,
+          use: 'css-loader'
+      }
+  ]
+};
+```
+
+In the above codeblock are a few (what Webpack calls) ‘rule sets’. A rule set at its minimum takes two parameters. The first is, as Webpack is creating the dependency graph, to look for one of the test cases. The second parameter ‘use’ tells Webapck what Node module to use when it finds a ‘test’ case. When you are adding different rule sets to your configuration, you are basically defining a pattern to match and what loader to use. You are pattern matching the file extension and telling Webpack how to ingest that file. This happens per file, not in bulk.
+
+Rule sets can have the following parameters:
+
+```js
+module: {
+  rules: [
+      {
+          test: regex,
+          use: (Array|String|Function),
+          include: RegExp[],
+          exclude: RegExp[],
+          issuer: (RegExp|String)[],
+          enforce: "pre"|"post"
+      },
+  ],
+};
+```
+
+‘test’ accepts a regular expression that instructs the compiler which files to run the loader against.
+
+‘use’ accepts an array/string/function that returns loader objects.
+
+‘enforce’ can be either “pre” or “post” which tells Webpack to run this rule either before or after all other rules.
+
+‘include’ accepts an array of regular expressions that instructs the compiler which folders/files to include. Will only search paths provided with the include.
+
+‘exclude’ accepts an array of regular expressions that instructs the compiler which folders/files to ignore.
+
+Whether or not you use any or all of the available parameters in the rule set will be based on your specific use case.
