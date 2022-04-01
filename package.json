@@ -1,11 +1,15 @@
 {
-  "name": "first-script",
+  "name": "debug-script",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "webpack": "webpack",
     "dev": "npm run webpack -- --mode development",
-    "prod": "npm run webpack -- --mode production"
+    "prod": "npm run webpack -- --mode production",
+    "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
+    "dev:debug": "npm run debug -- --mode development",
+    "prod:debug": "npm run debug -- --mode production",
+    "debugthis": "node --inspect --inspect-brk ./src/index.js"
   },
   "repository": "https://github.com/devmahmud/webpack4-fundementals.git",
   "author": "Mahmudul Alam <expelmahmud@gmail.com>",
