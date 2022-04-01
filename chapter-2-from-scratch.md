@@ -137,3 +137,35 @@ You can name the exports anything you want, but it might make sense to name them
 export { top, bottom };
 
 It is recommended to put your exoprts at the bottom of your files. You can put your exports anywhere in the file, but it might make sense to choose and stick to a convention. Webpack only bundles whatever imports you are using, so if you only use the function from the button-styles.js file, only that function will be bundled, not the color variables.
+
+## Tree Shaking
+
+If you run npm prod and check your main.js file, you would not see the color variables if you did not import them. This is an example of Webpack’s tree shaking. Webpack will exclude any unused code. At the top level of your code directory, make a new file: webpack.config.jsand add to it the following:
+
+```js
+module.exports = {
+    mode: "none"
+};
+```
+
+The above basic configuration will run Webpack without any encapsulation.
+
+## Webpack Bundle Walkthrough
+
+If you’ve been following along, you can check out the dist/main.js file and take a look at how Webpack handles the code we’ve been working with.
+
+In that file, you will find a bunch of comments (to see comments, you may need to make a webpack.config.js file in the root of your project, see below for example file) that will inform you of what each piece of the function(s) is doing.
+
+```js
+// simple webpack.config.js file to remove code minification/optimization... because comments 
+
+module.exports = {
+  mode: 'development',
+  optimization: {
+    minimize: false
+  }
+};
+```
+
+Take a look through the file and try to follow each line of comments to figure out what Webpack has produced.
+
