@@ -136,3 +136,46 @@ ESM for browser is not an option ever recommended to anyone under any scenario.
 ## Introducing Webpack
 
 Every [JavaScript] library is different; i.e. may use different module formats. Enter Webpack. Webpack is a module bundler which lets you write in any module format (including mixed formats) and compiles them for the browser. Webpack supports static async bundling which allows you to create separate lazy load bundles at build time. Webpack is the most performant way to ship JavaScript.
+
+## Configuring Webpack
+
+```js
+module.exports = {
+  entry:{
+    vendor: './src/vendor.ts',
+    main: './src/main.browser.ts'
+  },
+  output:{
+    path: 'dist/',
+    filename: '[name].bundle.js'
+  }
+}
+```
+
+There’s 3 ways that you can use Webpack.
+
+The config - A CommonJS module that is an object which has a bunch of properties that define what Webpack should do with code.
+
+Webpack CLI - Almost every single property in Webpack is bound to a CLI argument and parameter.
+
+```bash
+$> webpack <entry.js> <result.js> --colors --progress
+$> webpack-dev-server --port=9000
+```
+
+Node API - Neutrino is built with this.
+
+```js
+var webpack = require("webpack");
+
+// returns a Compiler instance
+webpack({
+  // configuration object here!
+}, function(err, status){
+  // ...
+  // compilerCallback
+  console.error(err);
+})
+```
+
+Webpack is important for web performance, scalability, and maintainability.
