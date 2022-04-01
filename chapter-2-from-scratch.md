@@ -49,3 +49,15 @@ When you run the above with npm run debugthis, you will see a url in terminal th
 Run the debug command and you can debug Webpack!
 
 Get comfortable with adding to your config file, because the Webpack methodology is based on ‘separation of concerns’. Most people have trouble with Webpack because they shove everything into one file, into one build file, so it becomes fragile.
+
+## Coding Your First Module
+
+In src/ add a new file; i.e. nav.js. If you want to share some variables or a function, using the export {a, v, r} syntax will allow you to do so. Otherwise, use export default "nav". In your entry-point; i.e. index.js add an import statement, import nav from "./nav";.
+
+```js
+import nav from "./nav";
+
+console.log(nav)
+```
+
+Then build the project with the npm run prod command.
