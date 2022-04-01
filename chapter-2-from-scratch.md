@@ -169,3 +169,39 @@ module.exports = {
 
 Take a look through the file and try to follow each line of comments to figure out what Webpack has produced.
 
+## Webpack Core Concepts
+
+---
+
+## Webpack Entry
+
+Now we will begin to actually build out the config file, add loaders, support for other things, and talk about some why(s).
+
+Webpack Entry - It’s not the entry property on the config file, but speaking of the ‘entry’ of the various files required for your project; i.e.
+
+```bash
+└── bootstrap.js
+    └── app.components.ts
+        ├── external.lib.js
+        │   ├── external.lib.dep.css
+        │   └── external.lib.dep.js
+        └── some.components.ts
+            └── some.component.sass
+```
+
+The first file bootstrap.js is your entry point, Webpack uss this as the starting point. This is defined by using an entry property in the config file.
+
+```js
+// webpack.config.js
+
+module.exports = {
+  mode: 'development',
+  entry: './my-entry-file.main.js',
+  //...
+  }
+};
+```
+
+There are a couple of different data types that you can enter into the entry point of your config file, but the simplest of them is just a string which is just a relative path. Webpack will trace through each of your imports and then recurisively look for other dependencies in those files until it creates a graph.
+
+The entry point tells Webpack **what** (files) to load for the browser; it compliments the output property.
