@@ -299,3 +299,58 @@ The above example, when finding a file with the .less extension, would start wit
 [There are tons of loaders available in the NPM registry…](https://www.npmjs.com/search?q=webpack%20loader) responsive image handling, babel, php to JS.
 
 Loaders tell Webpack **how** to interpret and translate files. Transformed on a per-file basis before adding to the dependency graph.
+
+## Webpack Plugins
+
+The last core concept of Webpack is plugins. The anatomy of a Webpack plugin is at its core a JavaScript object that has an apply property in the prototype chain. A plugin allows you to hook into the entire Webpack lifecycle of events. There are a bunch of plugins built out of the box to make things easier. An example of plugin:
+
+```js
+function BellOnBundlerErrorPlugin () { }
+
+BellOnBundlerErrorPlugin.prototype.apply = function(compiler) {
+  if (typeof(process) !== 'undefined'){
+
+    // Complier events that are emitted and handled
+    compiler.plugin('done', function(stats) {
+        if (stats.hasErrors()) {
+            process.stderr.write('\x07');
+        }
+    });
+
+    compiler.plugin('failed', function(err) {
+        process.stderr.write('\x07');
+    });
+
+  }
+}
+
+module.exports = BellOnBundlerErrorPlugin
+```
+
+The above plugin is instantiable, so we can require() it from the node_modules into the config file. In the webpack.config.js file, you can add this plugin as so:
+
+```js
+// require() from node_modules or webpack or local file
+var BellOnBundleErrorPlugin = require('bell-on-error');
+var webpack = require('webpack');
+
+module.exports = {
+    //...
+    plugins: [
+        new BellOnBundlerErrorPlugin(),
+
+        // And some more of the built-in plugins
+        new webpack.optimize.CommonsChunckPlugin('vendors'),
+        new webpack.optimize.UglifyJSPlugin()
+    ]
+    //...
+}
+```
+
+The above passes a new instance of the plugin(s) into the configuration. Within the () of each plugin you can pass in additional arguments.
+
+80% of Webpack is made up of its own plugin system. Webpack itself is a completely event drive architecture. Having this sort of architecture allows Webpack to pivot very quickly. It allows Webpack to instantly adopt a new feature without breaking anything. Alternatively, Webpack could drop a feature without breaking changes.
+
+Plugins add additional functionality to Compliations(optimized bundled modules). They are more powerful with more access to the [CompilerAPI](https://webpack.js.org/api/compiler-hooks/). They do everything else you’d ever want to do in Webpack. Plugins let you do anything that you can’t do with a loader. Loaders are only applied on a profile basis, but plugins can access the whole bundle.
+
+Plugins are useful when you want to interact with the compiler runtime, the event lifecycle, or even when you want to just apply functionality at the bundle level.
