@@ -278,3 +278,24 @@ module: {
 ‘exclude’ accepts an array of regular expressions that instructs the compiler which folders/files to ignore.
 
 Whether or not you use any or all of the available parameters in the rule set will be based on your specific use case.
+
+## Chaining Loaders
+
+The anatomy of a loader is such that it just takes a source and returns a new source. ‘use’ can accept an array, and execute from right to left. Technically, under the hood they go right left right, but the first pass going from right to left is just to collect metadata. Just before Webpack is going to process any file, it checks to see if any rule sets match against the file.
+
+```js
+module: {
+  rules: [
+      {
+          test: /\.less$/,
+          use: ['style', 'css', 'less']
+      }
+  ],
+};
+```
+
+The above example, when finding a file with the .less extension, would start with the less loader, then pass the result to the css loader, andd finally to the style loader which results in the styles being placed in a script tag at the head of your HTML file. Not a very performant way to handle your styles, but an example of chaining loaders.
+
+[There are tons of loaders available in the NPM registry…](https://www.npmjs.com/search?q=webpack%20loader) responsive image handling, babel, php to JS.
+
+Loaders tell Webpack **how** to interpret and translate files. Transformed on a per-file basis before adding to the dependency graph.
