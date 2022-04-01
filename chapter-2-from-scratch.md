@@ -61,3 +61,79 @@ console.log(nav)
 ```
 
 Then build the project with the npm run prod command.
+
+## Adding Watch Mode
+
+To avoid having to continuously run a build command, you can just add a ‘watch’ flag to your dev command in the config file; i.e.
+
+```json
+"dev": "npm run webpack -- --mode development --watch"
+```
+
+Now when you type npm run dev in terminal, Webpack will ‘watch’ for changes. Update nav.js to the following:
+
+```js
+export default () => "nav";
+```
+
+Then you have to update the index.js file to:
+
+```js
+import nav from "./nav";
+
+console.log(nav()) <!-- call the nav function -->
+```
+
+You will see in your terminal the changes to the files being ‘watched’ and Webpack will incrementally compile the changes.
+
+## ES Module Syntax
+
+Add a new file footer.js with the following:
+
+```js
+export const top = "top";
+export const bottom = "bottom";
+```
+
+And in the index.js file add the following import statement:
+
+```js
+import { top, bottom } from "./footer";
+```
+
+Now you have access to the variables from footer.
+
+## CommonJS Export
+
+If you want / need to use a CommonJS module, the format is kind of similar to what we’ve already seen. There are two options, a default or a named export. The syntax is as follows (in a file button.js):
+
+```js
+// take a str, the button label and return an element
+
+module.exports = (buttonName) => {
+    return `Button: ${buttonName}`;
+};
+```
+
+In Webpack, you cannot use CommonJS and ES6 in the same file, it would throw an error.
+Webpack supports using require, but you can import a CommonJS module as any other.
+
+## CommonJS Named Exports
+
+If you want to do a named export, maybe adding button styles?, make a new file button-styles.js and add the following:
+
+```js
+const red = "color: red;";
+const blue = "color:  blue;";
+const makeColorStyle = color => `color: ${color};`;
+
+exports.red = red;
+exports.blue = blue;
+exports.makeColorStyle = makeColorStyle;
+```
+
+You can name the exports anything you want, but it might make sense to name them same or similar to the variable that they represent. If you would like to destructure your exports, you could (in footer.js) do the following:
+
+export { top, bottom };
+
+It is recommended to put your exoprts at the bottom of your files. You can put your exports anywhere in the file, but it might make sense to choose and stick to a convention. Webpack only bundles whatever imports you are using, so if you only use the function from the button-styles.js file, only that function will be bundled, not the color variables.
