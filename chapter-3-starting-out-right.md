@@ -100,3 +100,25 @@ Before you start to separate out the config file into different builds and condi
 
 Type npm run dev into your terminal and you should see that your code is available to view somewhere on a localhost address. Now you have a dev server to check on your changes as they are compiled, the browser will automatically refresh when changes are compiled. Webpack Dev Server is a web server based on [Express](https://expressjs.com/). All it’s doing is instead of making a bundle, is it is making a bundle in memory and serving that up to Express, which then does a web socket connection which displays the updates as they arrive.
 
+## Starting to Code with Webpack
+
+With the development server set up, making changes to files will cause a compile to occur and you can see the changes reflected in your browser. The workshop example shows the footer.js file being updated to create some markup with JavaScript.
+
+```js
+import{ red, blue } from "./button-styles";
+
+const top = document.createElement("div");
+top.innerText = "Top of Footer";
+top.style = red;
+const bottom = document.createElement("div");
+bottom.innerText = "Bottom of Footer";
+bottom.style = blue;
+
+const footer = document.createElement("footer");
+footer.appendChild(top);
+footer.appendChild(bottom);
+
+export { top, bottom, footer };
+```
+
+This is a very basic example, but it does allow you to immediately see the benefit of using the Webpack development server.
