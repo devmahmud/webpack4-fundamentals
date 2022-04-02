@@ -489,3 +489,7 @@ Oh and of course… Add to your package.json file:
 Then run npm run prod:compress and watch the magic unfold! If you want to take it a step further, try running npm run prod:compress -- --env.presets analyze and see how you can now get both the compression and the analyze preset to run together. This is possible with any of your configs… if you’ve been following how to set up Webpack with this tutorial.
 
 Each of the plugins we’ve seen do have individual options, it just depends on what your environment is.
+
+## Source Maps
+
+The last piece that is useful to discuss is, Source Maps. There are a variety of different fomats that you can generate source maps and they all have different trade-offs, like everything in programming. [Go check out the Webpack Config Documentation](https://webpack.js.org/configuration) the specific section of the docs is [devtool](https://webpack.js.org/configuration/devtool). Devtool is the property responsible for creating source maps. You’ll notice a table that talks about all of the diferent qualities of what the source maps produce. You can see in the table the various trade-offs that can be made depending on the quality of source map you are after.
