@@ -173,3 +173,17 @@ module.exports = ({ mode, presets } = { mode: "production", presets: [] }) => {
 ```
 
 modeConfig will set the mode. With the webpack.config.js file set up, you can now start to separate production, development, and whatever other build environment settings you would like to have.
+
+## Webpack Q&A
+
+**Can Webpack be used server side?**
+
+Yes, with webpack-dev-middleware
+
+**Can you use the HTML Webpack plugin to process all HTML files without having to declare the plugin across multiple build environments?**
+
+For a multi-page app architecture, you do actually have to have a new instance of this plugin. Check out the [Multipage Webpack Plugin](https://github.com/zorigitano/multipage-webpack-plugin) for some insight on how that has been handled by the instructor in a previous role for Multual of Omaha. Basically, it accesses your entries and for each entry creates a new instance of the plugin.
+
+**Are there situations where Webpack runs into an out of memory error andn where would you capture that exception?**
+
+Yes? Your Webpack space complexity will be linear in terms of how many modules you have in your app. You will end up consuming more and more memory because it needs more and more memory. Increasing the memory limit for Node can help (AirBNB has gone up to 32GB). It’s also possible that you could have a memory leak i.e. you are using hashing while using the dev server and a new hash is created each time you make a file change which is then stored in memory. Don’t do that. BUT… that specific issue has been addressed in Webpack 5.
