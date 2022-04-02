@@ -122,3 +122,54 @@ export { top, bottom, footer };
 ```
 
 This is a very basic example, but it does allow you to immediately see the benefit of using the Webpack development server.
+
+## Splitting Environment Config Files
+
+Time to split the environment config files! In webpack.config.js, update it to:
+
+```js
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
+
+module.exports = ({ mode, presets } = { mode: "production", presets: [] }) => {
+console.log(mode); // this way you can see what mode is
+    return {
+        mode,
+        output: {
+            filename: "bundle.js"
+        },
+        plugins: [
+            new HtmlWebpackPlugin(),
+            new webpack.ProgressPlugin()
+        ]
+    }
+};
+```
+
+The new const modeConfig is calling require and based on what is passed in to the function (env), it will either look for webpack.production or webpack.developemnt. This is leveraging the env.mode and passing it in. Also on the module.exports... line are some additional defaults added as a ‘safety net’ so that if no object is passed in, there is in fact now a default that would run the base configuration of Webpack.
+
+To get your config split into different files, run npm install webpack-merge --dev, then add const webpackMerge = require("webpack-merge"); to the webpack.config.js file. By deafult, Webpack Merge is just using [Object Assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign). Again update the webpack.config.js file to:
+
+```js
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
+const webpackMerge = require("webpack-merge");
+
+module.exports = ({ mode, presets } = { mode: "production", presets: [] }) => {
+    return webpackMerge (
+        {
+            mode,
+            plugins: [
+                new HtmlWebpackPlugin(),
+                new webpack.ProgressPlugin()
+            ]
+        },
+        modeConfig(mode),
+        loadPresets({ mode, presets })
+    );
+}
+```
+
+modeConfig will set the mode. With the webpack.config.js file set up, you can now start to separate production, development, and whatever other build environment settings you would like to have.
