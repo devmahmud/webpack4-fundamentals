@@ -493,3 +493,40 @@ Each of the plugins we’ve seen do have individual options, it just depends on 
 ## Source Maps
 
 The last piece that is useful to discuss is, Source Maps. There are a variety of different fomats that you can generate source maps and they all have different trade-offs, like everything in programming. [Go check out the Webpack Config Documentation](https://webpack.js.org/configuration) the specific section of the docs is [devtool](https://webpack.js.org/configuration/devtool). Devtool is the property responsible for creating source maps. You’ll notice a table that talks about all of the diferent qualities of what the source maps produce. You can see in the table the various trade-offs that can be made depending on the quality of source map you are after.
+
+## Wrapping Up
+
+---
+
+## Q&A and Closing Remarks
+
+**Q: If you split your JavaScript files into main.js, vendor.js, and manifest.js as per the docs on caching, and your vendor file is getting too big, what are some of the steps you would take to reduce the filesize?**
+
+A: Focus more on actually splitting your code with the dynamic import statement instead of trying to force or synthetically create the spender bundle. At the end of the day, caching really only solves the time it takes for the network to retrieve an asset, but the number one cost of a page loading slowly is the amount of JavaScript you parse, evaulate, and execute. So you don’t get any wins there by creating these vendor bundles. Short answer, turn the caching features off. And focus on trying to asychronously load code that you don’t need up front.
+
+**Q: Is there a lazy load plugin recommendation?!**
+
+A: Lazy loading is code splitting in Webpack. The example given, changes an import statement into a function that loads the import statement when called; i.e. when a button is clicked, load the code.
+
+```js
+// from index.js in the workshop repo
+//..
+const loadFooter = () => import('./footer');
+//..
+
+button.addEventListener("click", e => {
+    loadFooter().then(m => {
+        document.body.appendChild(m.footer) // moved from below
+    });
+});
+```
+
+The above (contrived) scenario assumes that we only want to load the footer when someone clicks on a button. Lazy loading / code splitting is the main reason Webpack was created. Webpack supports dynamic import statements by default. If you are using Babel, you have to add another plugin to support the syntax… [like this plugin that does exactly that](https://github.com/airbnb/babel-plugin-dynamic-import-node). Standalone without Babel or Typescript, Webpack can read and understand the dynamic import statement. The above would actually create a separate bundle file that will only be loaded when the event occurs.
+
+**Q: Is there any tree shaking benefit over exporting individual functions instead of a class?**
+
+A: Short answer is yes. Methods on classes cannot be tree-shaken if they are not used. The instructor tends to favor a Functional over Object Oriented approach.
+
+**Q: How do you go about finding good [Webpack] plugins versus bad plugins?**
+
+A: [Webpack Contrib](https://github.com/webpack-contrib/) - contains 90 repos; mostly loaders.
