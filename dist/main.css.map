@@ -1,0 +1,1 @@
+{"version":3,"file":"main.css","mappings":"AAAA;EACE,aAAa;EACb,WAAW;EACX,uBAAuB;AACzB;;ACJA;EACE,oBAAoB;AACtB","sources":["webpack://debug-script/./src/footer.css","webpack://debug-script/./src/button.css"],"sourcesContent":["footer {\n  height: 100px;\n  width: 100%;\n  background: yellowgreen;\n}\n","button {\n  font-family: fantasy;\n}\n"],"names":[],"sourceRoot":""}
