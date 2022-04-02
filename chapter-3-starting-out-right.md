@@ -187,3 +187,131 @@ For a multi-page app architecture, you do actually have to have a new instance o
 **Are there situations where Webpack runs into an out of memory error andn where would you capture that exception?**
 
 Yes? Your Webpack space complexity will be linear in terms of how many modules you have in your app. You will end up consuming more and more memory because it needs more and more memory. Increasing the memory limit for Node can help (AirBNB has gone up to 32GB). It’s also possible that you could have a memory leak i.e. you are using hashing while using the dev server and a new hash is created each time you make a file change which is then stored in memory. Don’t do that. BUT… that specific issue has been addressed in Webpack 5.
+
+## Using Plugins
+
+---
+
+## Using CSS with Webpack
+
+It would be more manageable if styles were out of the JavaScript right?! Like maybe in their own CSS/SCSS file? Yep. Go ahead and make a new stylesheet for your footer.js file. Call it footer.css or something clever like that (I ‘m actually using SASS, so if you’d like to do that as well, run npm install sass sass-loader to get support for that filetype). I added classes and an import for the SCSS file to my footer.js file like so:
+
+```js
+import "./footer.scss";
+import { red, blue } from "./button-styles";
+
+const top = document.createElement("div");
+top.className = "footer--top";
+top.innerText = "Top of Footer";
+const bottom = document.createElement("div");
+bottom.innerText = "Bottom of Footer";
+bottom.className = "footer--bottom";
+const footer = document.createElement("footer");
+footer.appendChild(top);
+footer.appendChild(bottom);
+
+export { top, bottom, footer };
+```
+
+In your new footer.css (or footer.scss) file, add some styling like so:
+
+```css
+footer {
+    height: 100px;
+    width: 100%;
+    text-align: center;
+
+    .footer--top {
+        padding: 10px 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: lawngreen;
+    }
+
+    .footer--bottom {
+        padding: 10px 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: aqua;
+    }
+}
+```
+
+Do whatever you like for styling, the important thing is to see the things! But before we get to see all the awesome we’ve made, we have to update the config file to provide the appropriate loaders for the stylesheet(s). Update the webpack.development.js file with this:
+
+```js
+module.exports = () => ({
+    module: {
+        rules: [
+            {
+                test: /\.s[ac]ss$/i,
+                use: ["style-loader", "css-loader", "sass-loader"]
+            }
+        ]
+    }
+})
+```
+
+I believe the instructor skipped over the breaking up of the configs into separate files, so here’s that. Make (at the root of your project) a folder for your configuration files, build-utils is a fine name. Add webpack.development.js and webpack.production.js in that folder and add the following base for each:
+
+```js
+module.exports = () => ({});
+```
+
+And if you are using straight up CSS, your config should look like this remember that test is a regular expession to find the specific filetype and use is what loader we will use to process the file:
+
+```js
+module.exports = () => ({
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"]
+            }
+        ]
+    }
+})
+```
+
+Initially, the instructor only includes the css-loader and nothing happens. To check out what’s going on (if you want to try this progressively), console.log the import from footer.js and you can then see what is actually being imported. style-loader actually consumes the CSS and applies it for you. note: if you are modifying your config, you will have to restart your dev environment.
+
+## Hot Module Replacement with CSS
+
+If you look at the generated code, there are special annotations wrapped around your CSS (now JavaScript code). Loaders are really useful for helping support a unique Webpack feature called [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/). So… we’re going to try it. In the package.json file, add another flag to the end of your dev setup, --hot. To see Hot Module Replacement in action, restart your dev environment npm run dev, remove the import ".footer.(s)css"; statement from footer.js and place that same line into your entry point, index.js. Then, make some arbitrary change to your stylesheet and you should see the browser instantly reload itself. Currently your package.json file should look something like this:
+
+```json
+//...
+"scripts": {
+    "webpack": "webpack",
+    "webpack-dev-server": "webpack-dev-server",
+    "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
+    "prod": "npm run webpack -- --env.mode production",
+    "dev": "npm run webpack-dev-server -- --env.mode development --hot",
+    "prod:debug": "npm run debug -- --env.mode production",
+    "dev:debug": "npm run debug -- --env.mode development"
+},
+//...
+```
+
+Webpack has the ability to ‘patch’ files with changes incrementally and apply them without you ever having to reload the browser. Currently, the setup is relying on JavaScript to insert a style tag to implement the CSS, but that is not an ideal way to apply styling, so let’s update the production config to use the mini-css-extract-plugin. In webpack.production.js, make your file look like this:
+
+```js
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+module.exports = () => ({
+    output: {
+        filename: "bundle.js"
+    },
+    module: {
+        rules: [
+            {
+                test: /\.s[ac]ss$/i,
+                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+            }
+        ]
+    },
+    plugins: [
+        new MiniCssExtractPlugin()
+    ]
+})
+```
+
+Next run your production environment, npm run prod, and check out the magic. There should now be a seperate CSS file in your dist folder AND you will see in the index.html file that there is a <link> without stylesheet in the appropriate place. The mini-css-extract-plugin has support for lazy loading CSS, a pretty huge performance win espcially when it comes to CSS. With the css-loader you can [minify your CSS amongst other things](https://webpack.js.org/loaders/css-loader/). Whatever CSS you have, say multiple files for each component, they will be concatenated into one file.
