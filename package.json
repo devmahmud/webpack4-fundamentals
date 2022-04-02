@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "webpack": "webpack",
-    "dev": "npm run webpack -- --mode development --watch",
+    "webpack-dev-server": "webpack-dev-server",
+    "dev": "npm run webpack-dev-server -- --mode development",
     "prod": "npm run webpack -- --mode production",
     "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
     "dev:debug": "npm run debug -- --mode development",
@@ -14,11 +15,11 @@
   "repository": "https://github.com/devmahmud/webpack4-fundementals.git",
   "author": "Mahmudul Alam <expelmahmud@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "html-webpack-plugin": "^5.5.0",
-    "webpack": "^5.71.0"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.71.0",
+    "webpack-dev-server": "^4.7.4",
     "webpack-cli": "^4.9.2"
   }
 }
