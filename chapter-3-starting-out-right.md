@@ -361,3 +361,20 @@ document.body.appendChild(image);
 ```
 
 If you are running the dev environment, you should see the image appear.
+
+## Limit Filesize Option in URL Loader
+
+Now you should have an image loading, but it is not optimized yet, because it is a giant URI… Let’s fix that. The URL Loader has an option called limit. Update the webpack.config.js url-loader to:
+
+```js
+use: [
+        {
+            loader: "url-loader",
+            options: {
+                limit: 5000
+            }
+        }
+    ]
+```
+
+Notice the modified syntax for the loader, it is now an object. Both the shorthand ["url-loader"] or its object counterpart work, but if you want to be able to pass options to the loader, you need to use its object form. Above, the limit option is set which for the URL loader will cause it to base64 encode any images that are below the specified size or if they are above the specified size, it will just include a hashed image in your output file (stored in memory). To do this, the url-loader is actually calling the file-loader behind the scenes.
