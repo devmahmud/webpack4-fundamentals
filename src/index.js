@@ -5,7 +5,7 @@ import { makeColorStyle } from './button-styles';
 import makeImage from './image';
 import './button.css';
 import logoUrl from './webpack-logo.png';
-import Foo from './foo.ts';
+// import Foo from './foo.ts';
 
 const button = makeButton('My first button!');
 const image = makeImage(logoUrl);

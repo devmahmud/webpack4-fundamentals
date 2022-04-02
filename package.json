@@ -12,6 +12,7 @@
     "prod:debug": "npm run debug -- --env mode=production",
     "prod:typescript": "npm run prod -- --env presets=typescript",
     "prod:analyze": "npm run prod -- --env presets=analyze",
+    "prod:compress": "npm run prod -- --env presets=compression",
     "debugthis": "node --inspect --inspect-brk ./src/index.js"
   },
   "repository": "https://github.com/devmahmud/webpack4-fundementals.git",
@@ -23,6 +24,7 @@
     "url-loader": "^4.1.1"
   },
   "devDependencies": {
+    "compression-webpack-plugin": "^9.2.0",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.0",
