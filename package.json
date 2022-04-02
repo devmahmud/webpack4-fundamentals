@@ -5,11 +5,12 @@
   "scripts": {
     "webpack": "webpack",
     "webpack-dev-server": "webpack-dev-server",
-    "dev": "npm run webpack-dev-server -- --mode development --hot",
-    "prod": "npm run webpack -- --mode production",
+    "dev": "npm run webpack-dev-server -- --env mode=development --hot",
+    "prod": "npm run webpack -- --env mode=production",
     "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
-    "dev:debug": "npm run debug -- --mode development",
-    "prod:debug": "npm run debug -- --mode production",
+    "dev:debug": "npm run debug -- --env mode=development",
+    "prod:debug": "npm run debug -- --env mode=production",
+    "prod:typescript": "npm run prod -- --env presets=typescript",
     "debugthis": "node --inspect --inspect-brk ./src/index.js"
   },
   "repository": "https://github.com/devmahmud/webpack4-fundementals.git",
@@ -17,6 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "file-loader": "^6.2.0",
+    "typescript": "^4.6.3",
     "url-loader": "^4.1.1"
   },
   "devDependencies": {
@@ -24,6 +26,7 @@
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.0",
     "style-loader": "^3.3.1",
+    "ts-loader": "^9.2.8",
     "webpack": "^5.71.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
