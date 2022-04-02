@@ -85,3 +85,18 @@ console.log(mode); // this way you can see what mode is
 ```
 
 Anytime you pass a plugin to your config file, you need to add new before declaring it (see above code block).
+
+## Setting Up a Local Development Server
+
+Before you start to separate out the config file into different builds and conditionals, let’s set up a development server. Run npm install webpack-dev-server --dev. Then update the package.json file with:
+
+```js
+//...
+"webpack-dev-server": "webpack-dev-server",
+//...
+"dev": "npm run webpack-dev-server..."
+//...
+```
+
+Type npm run dev into your terminal and you should see that your code is available to view somewhere on a localhost address. Now you have a dev server to check on your changes as they are compiled, the browser will automatically refresh when changes are compiled. Webpack Dev Server is a web server based on [Express](https://expressjs.com/). All it’s doing is instead of making a bundle, is it is making a bundle in memory and serving that up to Express, which then does a web socket connection which displays the updates as they arrive.
+
