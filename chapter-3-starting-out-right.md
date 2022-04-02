@@ -463,3 +463,29 @@ module.exports = () => ({
 ```
 
 Run npm run prod:analyze and you will see a page loaded in your web browser showing the result. Out of the box, it creates a separate web server which gives you a tree map visualization of what’s in your bundle. This is a valuable tool to determine why you may have file duplication or why a file may not be separated out
+
+## Compression Plugin
+
+Another example in adding a specific plugin for a specific purpose, the Compression Plugin! npm install compression-webpack-plugin --save-dev Make a new preset file webpack.compress.js in the presets folder. Make it look like this:
+
+```js
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+
+module.exports = () => ({
+    plugins: [
+        new ComressionWebpackPlugin()
+    ]
+});
+```
+
+Oh and of course… Add to your package.json file:
+
+```json
+//...
+"prod:compress": "npm run prod -- --env.presets compress",
+//...
+```
+
+Then run npm run prod:compress and watch the magic unfold! If you want to take it a step further, try running npm run prod:compress -- --env.presets analyze and see how you can now get both the compression and the analyze preset to run together. This is possible with any of your configs… if you’ve been following how to set up Webpack with this tutorial.
+
+Each of the plugins we’ve seen do have individual options, it just depends on what your environment is.
