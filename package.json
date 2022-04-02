@@ -11,6 +11,7 @@
     "dev:debug": "npm run debug -- --env mode=development",
     "prod:debug": "npm run debug -- --env mode=production",
     "prod:typescript": "npm run prod -- --env presets=typescript",
+    "prod:analyze": "npm run prod -- --env presets=analyze",
     "debugthis": "node --inspect --inspect-brk ./src/index.js"
   },
   "repository": "https://github.com/devmahmud/webpack4-fundementals.git",
@@ -28,6 +29,7 @@
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.8",
     "webpack": "^5.71.0",
+    "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
     "webpack-merge": "^5.8.0"
