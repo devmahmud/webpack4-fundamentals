@@ -5,7 +5,7 @@
   "scripts": {
     "webpack": "webpack",
     "webpack-dev-server": "webpack-dev-server",
-    "dev": "npm run webpack-dev-server -- --mode development",
+    "dev": "npm run webpack-dev-server -- --mode development --hot",
     "prod": "npm run webpack -- --mode production",
     "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
     "dev:debug": "npm run debug -- --mode development",
@@ -17,7 +17,10 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "style-loader": "^3.3.1",
     "webpack": "^5.71.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
