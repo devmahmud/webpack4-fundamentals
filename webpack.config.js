@@ -7,6 +7,21 @@ module.exports = (env, { mode, presets } = { mode: 'production', presets: [] }) 
   return merge(
     {
       mode,
+      module: {
+        rules: [
+          {
+            test: /\.(png|jpe?g|gif)$/i,
+            use: [
+              {
+                loader: 'url-loader',
+                options: {
+                  limit: 5000,
+                },
+              },
+            ],
+          },
+        ],
+      },
       plugins: [new HtmlWebpackPlugin(), new webpack.ProgressPlugin()],
     },
     modeConfig(mode)

@@ -15,7 +15,10 @@
   "repository": "https://github.com/devmahmud/webpack4-fundementals.git",
   "author": "Mahmudul Alam <expelmahmud@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "file-loader": "^6.2.0",
+    "url-loader": "^4.1.1"
+  },
   "devDependencies": {
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
