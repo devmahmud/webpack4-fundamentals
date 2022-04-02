@@ -315,3 +315,49 @@ module.exports = () => ({
 ```
 
 Next run your production environment, npm run prod, and check out the magic. There should now be a seperate CSS file in your dist folder AND you will see in the index.html file that there is a <link> without stylesheet in the appropriate place. The mini-css-extract-plugin has support for lazy loading CSS, a pretty huge performance win espcially when it comes to CSS. With the css-loader you can [minify your CSS amongst other things](https://webpack.js.org/loaders/css-loader/). Whatever CSS you have, say multiple files for each component, they will be concatenated into one file.
+
+## File Loader & URL Loader
+
+Now we will add File and URL Loaders to the base configuration webpack.config.js. npm install file-loader url-loader These new loaders are an all around fallback to things that may not be mappable to a browser API or a source image/video/audio file, the most basic example being something like a .jpeg. You may want to Base64 inline an image or just optput it to your dist directory. This is what the URL Loader does for you. Grab any image and put it into your src folder. Set up the URL loader in the webpac.config.js file like so:
+
+```js
+//...
+mode,
+module: {
+    rules: [
+        test: /\.jpe?g/,
+        use: ["url-loader"]
+    ]
+}
+output: {
+//...
+```
+
+## Loading Images with JavaScript
+
+When it comes to Laoders (or pretty much anything) Webpack treats everything like JavaScript, so you can use it like JavaScript. In the index.js file, you can now import your image, something like import image from "./name-of-your-image.jpg" and if you log that to the console, you would see the base64 encoded version of your image file. Go ahead and make a new file in your src folder called image.js and add the following:
+
+```js
+const makeImage = url => {
+    const image = document.createElement("img");
+
+    image.src = url;
+    return image;
+};
+
+export default makeImage
+```
+
+And back in the entry point index.js import the new script import makeImage from "./image";
+
+Still in index.js add the following:
+
+```js
+const imageURL = "./path-to-my-image.jpg";
+
+const image = makeImage(imageURL);
+
+document.body.appendChild(image);
+```
+
+If you are running the dev environment, you should see the image appear.
