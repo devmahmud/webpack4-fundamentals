@@ -378,3 +378,63 @@ use: [
 ```
 
 Notice the modified syntax for the loader, it is now an object. Both the shorthand ["url-loader"] or its object counterpart work, but if you want to be able to pass options to the loader, you need to use its object form. Above, the limit option is set which for the URL loader will cause it to base64 encode any images that are below the specified size or if they are above the specified size, it will just include a hashed image in your output file (stored in memory). To do this, the url-loader is actually calling the file-loader behind the scenes.
+
+## Implementing Presets
+
+The idea of presets is that you might want more than dev or prod configurations. For this section, check out this loadPresets.js file in the workshop repo on github. The code is:
+
+```js
+const webpackMerge = require("webpack-merge");
+
+module.exports = env => {
+  const { presets } = env;
+  const mergedPresets = [].concat(...[presets]);
+  const mergedConfigs = mergedPresets.map(
+    presetName => require(`./presets/webpack.${presetName}`)(env) 
+    // call the preset and pass env also
+  );
+
+  return webpackMerge({}, ...mergedConfigs);
+};
+```
+
+You might have some different scenarios where you want to try out one feature, analyze your build, or have something that only your CI runs. You don’t want it shipped in your prod configuration, so presets. The above code block is taking in the env settings then flattening all of the presets into a list of strings. Then it maps them into a require function that takes the presetName and calls them. They are then merged and returned.
+
+Next, type that code out into your own loadPresets.js file and jump to your webpack.config.js to implement loadPresets. Something like:
+
+```js
+//...
+const presetConfig = require("./build-utils/presets/loadPresets");
+//...
+
+//...
+presetConfig({ mode, presets })
+//...
+```
+
+With the above code, you could now start to build out a variety of presets for different scenarios; webpack.typescript.js?
+
+```js
+module.exports = () => ({
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                use: "ts-loader
+            }
+        ]
+    }
+});
+```
+
+You then need to add the typescript loader to your project npm install ts-loader typescript@next. Now in the package.json file, you can add another build environment for typescript:
+
+```json
+//...
+"prod:typescript": "npm run prod -- --env.presets typescript",
+//...
+```
+
+If you run npm run prod:typescript, you should be able to include a file ending in .ts and your new environment and loader should be able to handle the new file. And it does.
+
+
