@@ -437,4 +437,29 @@ You then need to add the typescript loader to your project npm install ts-loader
 
 If you run npm run prod:typescript, you should be able to include a file ending in .ts and your new environment and loader should be able to handle the new file. And it does.
 
+## Bundle Analyzer Preset
 
+Webpack, by default, when it builds, it emits a stats object. The stats object either gets converted to a string or JSON (which is printed in the terminal), which is like the information that you see anytime a build happens. You can print it or you can consume it and do some interesting stuff with it. Possibly analyzing why a certain dependency got pulled into your appliaction as an example, or why is a particular file so large?
+
+Time to add the Webpack Bundle Analyzer plugin! npm install webpack-bundle-analyzer --dev Then add to the package.json:
+
+```json
+//...
+"prod:analyze": "npm run prod -- --env.presets analyze",
+//...
+```
+
+Now make a new script / preset that calls the Webpack Bundle Analyzer, webpack.analyze.js (analyze matches the name in package.json file). webpack.analyze.js:
+
+```js
+const WebpackBundleAnalyzer = require("webpack-bundle-analyzer")
+    .BundleAnalyzerPlugin;
+
+module.exports = () => ({
+    plugins: [
+        new WebpackBundleAnlyzer
+    ]
+});
+```
+
+Run npm run prod:analyze and you will see a page loaded in your web browser showing the result. Out of the box, it creates a separate web server which gives you a tree map visualization of what’s in your bundle. This is a valuable tool to determine why you may have file duplication or why a file may not be separated out
