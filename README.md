@@ -1,6 +1,6 @@
 # Webpack 4 fundamentals
 
-**Content from [Webpack 4 Fundamentals](https://frontendmasters.com/courses/webpack-fundamentals/)**
+**Personal note taken from [Webpack 4 Fundamentals](https://frontendmasters.com/courses/webpack-fundamentals/) course**
 
 ## Expectations
 
