@@ -354,3 +354,5 @@ The above passes a new instance of the plugin(s) into the configuration. Within 
 Plugins add additional functionality to Compliations(optimized bundled modules). They are more powerful with more access to the [CompilerAPI](https://webpack.js.org/api/compiler-hooks/). They do everything else you’d ever want to do in Webpack. Plugins let you do anything that you can’t do with a loader. Loaders are only applied on a profile basis, but plugins can access the whole bundle.
 
 Plugins are useful when you want to interact with the compiler runtime, the event lifecycle, or even when you want to just apply functionality at the bundle level.
+
+[Previous](./chapter-1-why.md) | [Next](./chapter-3-starting-out-right.md)

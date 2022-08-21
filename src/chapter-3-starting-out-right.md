@@ -530,3 +530,5 @@ A: Short answer is yes. Methods on classes cannot be tree-shaken if they are not
 **Q: How do you go about finding good [Webpack] plugins versus bad plugins?**
 
 A: [Webpack Contrib](https://github.com/webpack-contrib/) - contains 90 repos; mostly loaders.
+
+[Previous](./chapter-2-from-scratch.md)

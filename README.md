@@ -14,9 +14,9 @@
 
 ## Appendix
 
-1. [Chapter 1: Why?](./chapter-1-why.md)
-2. [Chapter 2: From Scratch](./chapter-2-from-scratch.md)
-3. [Chapter 3: Starting Out Right](./chapter-3-starting-out-right.md)
+1. [Chapter 1: Why?](./src/chapter-1-why.md)
+2. [Chapter 2: From Scratch](./src/chapter-2-from-scratch.md)
+3. [Chapter 3: Starting Out Right](./src/chapter-3-starting-out-right.md)
 
 ## Codes
 

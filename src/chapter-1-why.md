@@ -179,3 +179,5 @@ webpack({
 ```
 
 Webpack is important for web performance, scalability, and maintainability.
+
+[Next](./chapter-2-from-scratch.md)
